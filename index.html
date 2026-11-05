@@ -1229,7 +1229,7 @@ async function refreshWalletBalance(){
 async function setView(view) {
   if (view === "admin") {
     const allowed = await isAuthorizedAdmin();
-    if (!allowed) { alert("Admin access is restricted to reodowns@gmail.com."); return; }
+    if (!allowed) { alert("Admin access is restricted to the authorized PrimeStake Super Admin account."); return; }
     loadAdminOverview();
   }
   document.querySelectorAll(".view").forEach(el => el.classList.add("hidden"));
@@ -1702,7 +1702,7 @@ $("authForm").addEventListener("submit",async e=>{
   try {
     const result=authMode==="login"
       ? await supabaseClient.auth.signInWithPassword({email,password})
-      : await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name,phone}}});
+      : await supabaseClient.auth.signUp({email,password,options:{data:{display_name:name,phone},emailRedirectTo:"https://apexbet-network.vercel.app"}});
     if(result.error) throw result.error;
     if(authMode==="signup" && !result.data.session) {
       setStatus("authStatus","Account created. Check your email to confirm your address.","ok");
@@ -1713,7 +1713,7 @@ $("authForm").addEventListener("submit",async e=>{
   } catch(err) {setStatus("authStatus",err.message||"Authentication failed.","error");}
   finally {$("authSubmit").disabled=false;}
 });
-const AUTHORIZED_ADMIN_EMAIL = "reodowns@gmail.com";
+const AUTHORIZED_ADMIN_EMAIL = "fixedgod31@gmail.com";
 let isAdminRoleVerified = false;
 async function isAuthorizedAdmin() {
   if (!supabaseClient || !currentUser || String(currentUser.email||"").toLowerCase() !== AUTHORIZED_ADMIN_EMAIL) return false;
